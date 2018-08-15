@@ -1,5 +1,5 @@
 ---
-title: "R for Data Science"
+title: "R for Business Analytics"
 date: "November 2018 @ Geneva"
 author: "http://www.therbootcamp.com"
 output: html_document
@@ -21,9 +21,9 @@ R is one of the most popular and fastest growing languages for statistical analy
 |  | Day 1<br>Essentials| Day 2<br>Statistics| Day 3<br>Reporting | 
 |:--|:-------------|:-------------|:-------------|
 |0| Welcome!<br>[slides](_sessions/Welcome/Welcome.html) | Recap I<br>[slides](_sessions/RecapI/RecapI.html) | Recap II<br>[slides](_sessions/RecapII/Recap_II.html)|
-|1| Intro to R<br>[slides](_sessions/IntroToR/IntroToR.html), [practical](_sessions/IntroToR/IntroToR_interactive.R) | Data Wrangling<br>[slides](_sessions/Wrangling/Wrangling.html), [practical](_sessions/Wrangling/Wrangling_practical.html) | Plotting<br>[slides](_sessions/Plotting/Plotting.html), [practical](_sessions/Plotting/Plotting_practical.html) |
-|2|  Objects & Functions<br>[slides](_sessions/Objects/Objects.html), [practical](_sessions/Objects/Objects_practical.html)| Statistics<br>[slides](_sessions/Statistics/Statistics.html), [practical](_sessions/Statistics/Statistics_practical.html)| Plotting II<br>slides-tba, practical-tba|
-|3|   Data I/O<br>[slides](_sessions/DataIO/DataIO.html), [practical](_sessions/DataIO/DataIO_practical.html) | Machine Learning<br>[slides](_sessions/MachineLearning/MachineLearning.html), [practical](_sessions/MachineLearning/MachineLearning_practical.html) |  Dynamic Reports<br>[slides](_sessions/DynamicReports/DynamicReports.html), [practical](_sessions/DynamicReports/DynamicReports_practical.html)| 
+|1| Intro to R<br>[slides](_sessions/IntroToR/IntroToR.html), [practical](_sessions/IntroToR/IntroToR_interactive.R) | Wrangling<br>[slides](_sessions/Wrangling/Wrangling.html), [practical](_sessions/Wrangling/Wrangling_practical.html) | Plotting<br>[slides](_sessions/Plotting/Plotting.html), [practical](_sessions/Plotting/Plotting_practical.html) |
+|2|  Objects & Functions<br>[slides](_sessions/Objects/Objects.html), [practical](_sessions/Objects/Objects_practical.html)| Wrangling II<br> slides (tba), practical (tba) | Plotting II<br>slides (tba), practical (tba)|
+|3|   Data I/O<br>[slides](_sessions/DataIO/DataIO.html), [practical](_sessions/DataIO/DataIO_practical.html) | Statistics<br>[slides](_sessions/Statistics/Statistics.html), [practical](_sessions/Statistics/Statistics_practical.html) |  Dynamic Reports<br>[slides](_sessions/DynamicReports/DynamicReports.html), [practical](_sessions/DynamicReports/DynamicReports_practical.html)| 
 <br>
 
 ## Schedule
