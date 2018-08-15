@@ -1,6 +1,6 @@
 ---
-title: "Introduction to Data Science with R @ Geneva"
-date: "November 2018"
+title: "R for Data Science & Business Analytics"
+date: "November 2018 @ Geneva"
 author: "http://www.therbootcamp.com"
 output: html_document
 ---

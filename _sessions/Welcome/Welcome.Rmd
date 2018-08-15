@@ -22,11 +22,15 @@ layout: true
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 &emsp;&emsp;&emsp;&emsp;&emsp;
 <a href="https://therbootcamp.github.io/"><font color="#7E7E7E">www.therbootcamp.com</font></a>
-</span></div> ---
+</span></div>
+
+---
+
 ```{r, eval = FALSE, echo = FALSE}
 # Code to knit slides
 xaringan::inf_mr('_sessions/D1S0_Intro/Intro.Rmd')
 ```
+
 
 
 ```{r setup, include=FALSE}
@@ -48,6 +52,7 @@ knitr::opts_chunk$set(fig.align = 'center')
 <p align="center"><img src="https://therbootcamp.github.io/assets/img/640px-Middle_Bridge,_Basel,_Switzerland.jpeg" width="500"  height="400"></p>
 <center><font size = 3>Wikipedia</font></center>
 ]
+
 ---
 
 
