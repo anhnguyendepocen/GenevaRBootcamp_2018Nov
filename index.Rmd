@@ -1,11 +1,15 @@
 ---
-title: "R for Data Science & Business Analytics"
+title: "R for Data Science"
 date: "November 2018 @ Geneva"
 author: "http://www.therbootcamp.com"
 output: html_document
 ---
 
 <br>
+
+## Synopsis
+
+R is one of the most popular and fastest growing languages for statistical analyses and business analytics. Unlike proprietary software such as SPSS, SAS, or MatLab, R is free, open source, and has a huge community of developers. For these reasons, R is often the software of choice for academic research and industry titans such as Google, Apple, and Facebook. This course is designed for anyone who wants to process, analyze, or display data, either in an academic or industry setting. You will learn R from the ‘ground-up’ in an intensive 3-day course covering 3 different modules. In the first day, you will learn the basics of the R language, including fundamental programing concepts, different data types, loading and re-coding data from file, simple calculations, and calls to functions.  In the second day, you will learn an overview of R’s most common statistical functions and packages, including hypothesis tests such as t-tests, ANOVA and linear regression, to Bayesian statistics and advanced machine learning algorithms. In the third day, you will learn how to make elegant, modern data visualizations, from histograms, barplots and scatterplots, to network plots and maps, to interactive web-based visualizations. Starting from day one, we will work with hands-on exercises and real data in front of the computer to help you ‘learn by doing’. Each course day will also contain short lectures and examples to introduce you to new topics. No prior programming experience required. You only need to bring a laptop with software installation rights. We are happy to tailor material to the needs of the group.
 
 ## Materials
 
