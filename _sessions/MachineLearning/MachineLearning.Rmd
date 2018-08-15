@@ -1,0 +1,641 @@
+---
+title: "Machine Learning"
+author: "Geneva R Bootcamp <br/><a href='https://therbootcamp.github.io'>www.therbootcamp.com</a><br/>"
+date: "November 2018"
+output:
+  xaringan::moon_reader:
+    css: ["default", "baselrbootcamp.css"]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: '16:9'
+---
+
+layout: true
+
+<div class="my-footer"><span>
+<a href="https://therbootcamp.github.io/"><font color="#7E7E7E">Geneva, November 2018</font></a>
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+&emsp;&emsp;&emsp;&emsp;&emsp;
+<a href="https://therbootcamp.github.io/"><font color="#7E7E7E">www.therbootcamp.com</font></a>
+</span></div> 
+
+
+
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+library(tidyverse)
+set.seed(100)
+past <- tibble(id = 1:5,
+               sex = sample(c("m", "f"), size  = 5, replace = TRUE),
+               age = round(rnorm(5, mean = 45, sd = 5), 0),
+               fam_history = sample(c("Yes", "No"), size = 5, replace = TRUE),
+               smoking = sample(c(TRUE, FALSE), size = 5, replace = TRUE),
+               disease = sample(c(0, 1), size = 5, replace = TRUE))
+
+present <- tibble(id = 91:95,
+                  sex = sample(c("m", "f"), size  = 5, replace = TRUE),
+               age = round(rnorm(5, mean = 45, sd = 5), 0),
+               fam_history = sample(c("Yes", "No"), size = 5, replace = TRUE),
+               smoking = sample(c(TRUE, FALSE), size = 5, replace = TRUE),
+               disease = rep("?", 5))
+
+library(ggpubr)
+```
+
+
+---
+  
+```{r, eval = FALSE, echo = FALSE}
+# Code to knit slides
+xaringan::inf_mr('_sessions/D2S2_MachineLearning/MachineLearning.Rmd')
+```
+
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+# see: https://github.com/yihui/xaringan
+# install.packages("xaringan")
+# see: 
+# https://github.com/yihui/xaringan/wiki
+# https://github.com/gnab/remark/wiki/Markdown
+options(width=110)
+options(digits = 4)
+library(baselers)
+
+library(tidyverse)
+```
+
+
+# What is machine learning?
+
+.pull-left55[
+
+### Algorithms autonomously learning from data.
+
+Given data, an algorithm tunes its <high>parameters</high> to match the data, understand how it works, and make predictions for what will occur in the future.
+<br><br>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/mldiagram_A.png">
+</p>
+]
+
+.pull-right4[
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/machinelearningcartoon.png">
+</p>
+
+]
+
+---
+
+# Everyone uses machine learning
+
+.pull-left4[
+
+> ### "Machine learning drives our algorithms for demand forecasting, product search ranking, product and deals recommendations, merchandising placements, fraud detection, translations, and much more."
+> ### Jeff Bezos, founder of Amazon
+
+]
+
+
+.pull-right55[
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/mlexamples.png">
+</p>
+
+]
+
+
+---
+
+# What is the basic machine learning process?
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/MLdiagram.png">
+</p>
+
+
+---
+
+.pull-left45[
+
+# What is a model?
+
+A model is a <high>formal</high> (mathematical) procedure describing the relationships between variables.
+
+Most data have one main <high>criterion</high> or variable of interest, and several <high>features</high>.
+
+<br>
+
+  .pull-left7[
+  ```{r, echo = FALSE}
+  knitr::kable(past, format = "markdown")
+  ```
+  ]
+
+]
+
+
+.pull-right5[
+<br><br>
+### Decision Tree
+
+<p align="center">
+  <img src="https://github.com/therbootcamp/therbootcamp.github.io/blob/master/_sessions/_image/decision_tree_example.png?raw=true" height="280px">
+</p>
+
+### Weighted Additive (Regression)
+
+$$\large{Risk = age \times 0.01 + smoking \times 0.20 + fam\_history \times 0.20}$$
+
+]
+
+
+---
+
+.pull-left45[
+
+# What is model training?
+
+Model <high>training</high> (aka, fitting) is the process of matching a model's <high>parameters</high> to a specific dataset.
+
+Q: What are the parameters in the two models on the right?
+
+<br>
+
+  .pull-left7[
+  ```{r, echo = FALSE}
+  knitr::kable(past, format = "markdown")
+  ```
+  ]
+
+]
+
+.pull-right5[
+<br><br>
+### Decision Tree
+
+<p align="center">
+  <img src="https://github.com/therbootcamp/therbootcamp.github.io/blob/master/_sessions/_image/decision_tree_example.png?raw=true" height="280px">
+</p>
+
+### Weighted Additive (Regression)
+
+$$\large{Risk = age \times 0.01 + smoking \times 0.20 + fam\_history \times 0.20}$$
+
+]
+
+
+
+---
+
+```{r, echo = FALSE, eval = TRUE}
+set.seed(104)
+
+N <- 10
+
+x <- rnorm(n = N, mean = 10, sd = 2)
+y_1 <- x * 1.2 + rnorm(n = N, mean = 0, sd = .3)
+y_2 <-  x * 0 + rnorm(n = N, mean = 0, sd = 2.5) + 2
+
+y_1_n <- x * 1.2 + rnorm(n = N, mean = 0, sd = .4)
+y_2_n <- x * 0 + rnorm(n = N, mean = 0, sd = 2.5) + 2
+
+
+data <- data.frame(x, y_1, y_2, y_1_n, y_2_n)
+
+
+plot1 <- ggplot(data = data,
+                aes(x = x, y = y_1)) +
+  geom_point(size = 5, col = "gray") + 
+  geom_point(size = 5, pch = 21) +
+  xlim(7, 13) + 
+  ylim(7, 15) + 
+  labs(title = "Dataset A") + theme_bw()
+
+plot2 <- ggplot(data = data,
+                aes(x = x, y = y_2)) +
+  geom_point(size = 5, col = "gray") + 
+  geom_point(size = 5, pch = 21) +
+  labs(title = "Dataset B") + theme_bw() +
+  ylim(-2, 5)
+
+
+plot1b <- plot1 + 
+  geom_point(aes(x = x, y = y_1_n), col = "violetred2", size = 5) +
+  geom_point(aes(x = x, y = y_1_n), pch = 21, size = 5) +
+  geom_abline(slope = 1.2, intercept = 0, size = 2, col = "green") +
+  stat_smooth(method="lm",fullrange=TRUE, se = FALSE)
+  
+plot2b <- plot2 + 
+  geom_point(aes(x = x, y = y_2_n), col = "violetred2", size = 5) +
+  geom_point(aes(x = x, y = y_2_n), pch = 21, size = 5)+
+  geom_abline(slope = 0, intercept = 2, size = 2, col = "green") +
+  stat_smooth(method="lm",fullrange=TRUE, se = FALSE)
+
+
+```
+
+
+
+# Fit your own linear model!
+
+<br>
+```{r, echo = FALSE, fig.width = 8, fig.height = 4, warning = FALSE, fig.align = 'center', out.width = "85%"}
+ggarrange(plot1, plot2)
+```
+
+
+---
+
+# Fit your own linear model!
+<br>
+```{r, echo = FALSE, fig.width = 8, fig.height = 4, warning = FALSE, fig.align = 'center', out.width = "85%"}
+ggarrange(plot1b, plot2)
+```
+
+
+---
+
+# Fit your own linear model!
+<br>
+```{r, echo = FALSE, fig.width = 8, fig.height = 4, warning = FALSE, fig.align = 'center', out.width = "85%"}
+ggarrange(plot1b, plot2b)
+```
+
+
+---
+
+# Why do we separate training from prediction?
+
+.pull-left35[
+<br>
+Just because a model can <high>fit past data well</high>, does *not* necessarily mean that it will <high>predict new data well</high>.
+
+Anyone can come up with a model of past data (e.g.; stock performance, lottery winnings). 
+
+<high>Predicting what you can't see in the future is much more difficult.</high>
+
+]
+ 
+.pull-right6[
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/therbootcamp/Erfurt_2018June/master/_sessions/_image/prediction_collage.png">
+</p>
+
+
+]
+
+---
+<br><br>
+<font size = 6>"Can you come up with a model that will perfectly match past data but is worthless in predicting future data?"</font><br><br>
+
+
+.pull-left45[
+
+<br>
+<font size=5><hfont>Past <high>Training</high> Data</hfont></font>
+
+<br>
+
+```{r, results = 'asis', echo = FALSE}
+knitr::kable(past, format = "markdown")
+```
+
+]
+
+
+.pull-right45[
+
+<br>
+<font size=5><hfont>Future <high> Test</high> Data</hfont></font>
+
+<br>
+
+```{r, echo = FALSE}
+knitr::kable(present, format = "markdown")
+```
+
+]
+
+
+
+---
+
+# Two types of prediction tasks
+
+.pull-left45[
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/classification_task.png" height="450px">
+</p>
+
+]
+
+
+.pull-right45[
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/regression_task.png" height="450px">
+</p>
+
+]
+
+
+---
+
+# What machine learning algorithms are there?
+
+.pull-left55[
+
+There are thousands of machine learning algorithms from many different fields.
+
+[Wikipedia](https://en.wikipedia.org/wiki/Category:Machine_learning) lists 57 categories of machine learning algorithms:
+
+<br>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/wikipediaml.png" height="250px">
+</p>
+
+
+]
+
+.pull-right4[
+
+
+### Algorithims we focus on
+<br>
+We will focus on 3 algorithms that apply to most ML tasks:
+
+  .pull-left6[
+  | Algorithm | Complexity|
+  |:--------------------------------------|:-------------------|
+  |     [Decision Trees](https://en.wikipedia.org/wiki/Decision_tree) | Low |
+  |     [Regression](https://en.wikipedia.org/wiki/Regression_analysis) | Low / Medium | 
+  |     [Random Forests](https://en.wikipedia.org/wiki/Random_forest) | High |
+  ]
+]
+
+---
+
+# How do you fit and evaluate ML models in R?
+
+.pull-left45[
+
+<high>ML models work the same way you fit standard statistical models.</high> Install the package, load, and find the main fitting functions.
+
+```{r, eval = FALSE}
+# Install the glmnet package
+install.packages("glmnet")
+
+# Load glmnet
+library(glmnet)
+
+# Look at help menu
+?glmnet
+```
+
+Note: Some functions will use the standard `FUN(formula, data)` arguments, but others (like `glmnet()`) require other arguments, like `x, y` (numeric matrices).
+
+]
+
+.pull-right5[
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/therbootcamp/Erfurt_2018June/master/_sessions/_image/glmnet_help.jpg" height="400px">
+</p>
+
+]
+
+---
+
+# Regression
+
+.pull-left45[
+
+In regression, the criterion is modeled as the <high>sum of predictors times weights $\beta_{1}$, $\beta_{2}$</high>.
+
+<u>Loan example</u><br>
+For instance, one could model the risk of defaulting on a loan as:
+
+$$Risk = Age \times \beta_{age} + Income \times \beta_{income} + ...$$
+
+Training a model means finding values of $\beta_{Age}$ and $\beta_{Income}$ that 'best' match the training data.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/regression.png" height="180px">
+</p>
+
+]
+
+.pull-right5[
+
+### Regression with glm()
+
+The `glm()` function in the base stats package performs standard regression
+
+```{r, eval = FALSE}
+# Standard linear regression
+glm_mod <- glm(formula = happiness ~ .,
+               data = baselers)
+
+# Logisitic regression with family = 'binomial'
+glm_mod <- glm(formula = sex ~ .,
+               data = baselers.
+               family = "binomial")
+```
+
+
+
+]
+
+---
+
+# Decision Trees
+
+.pull-left45[
+
+In decision trees, the criterion is modeled as a <high>sequence of logical YES or NO questions</high>.
+<br><br>
+
+<u>Loan example</u><br>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/defaulttree.png" height="250px">
+</p>
+
+
+]
+
+.pull-right5[
+
+### Decision trees with rpart
+
+This codes runs decision trees with functions from the `rpart`-package.
+
+```{r, eval = FALSE}
+install.packages("rpart")
+library(rpart)
+
+# Train rpart model
+loan_rpart_mod <- rpart(formula, data,
+                        method = "class",
+                        rpart.control)
+```
+
+]
+
+---
+
+# Random Forest
+
+.pull-left45[
+
+In [Random Forest](https://en.wikipedia.org/wiki/Random_forest), the criterion is models as the <high>aggregate prediction of a large number of decision trees</high> each based on different features.
+<br>
+
+<u>Loan example</u><br>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/therbootcamp/Erfurt_2018June/master/_sessions/_image/randomforest_diagram.png" height="285px"><br>
+  <a href="https://medium.com/@williamkoehrsen">Source</a>
+</p>
+
+]
+
+.pull-right5[
+
+### Random Forests with `randomforest`
+
+```{r, eval = FALSE}
+install.packages("randomForest")
+library(randomForest)
+
+# Create a randomForest model
+randomForest(formula = y ~.,    # Formula 
+             data = data_train, # Training data
+             ntree, mtry)  # Tuning parameters
+```
+
+<br>
+Tuning parameters
+
+|Parameter | Description|
+|:-------|:-------|
+|`ntree`|Number of trees in forest|
+|`mtry`|Number of variables randomly selected at splits|
+
+]
+
+
+---
+.pull-left35[
+
+# Exploring ML objects
+
+Just like objects from statistical functions, objects from machine learning functions are <high>lists</high> that you can explore using <high>generic functions</high>:
+
+
+|Function|Description
+|:------|:----|
+|`summary()`| Overview of the most important information|
+|`names()`|See all named elements you can access with $|
+|`plot()`|Visualise the object (sometimes)|
+|`predict()`|Predict new data based on the ML model|
+
+]
+
+.pull-right6[
+
+
+```{r, eval = FALSE, echo = TRUE}
+# Create a regression object
+baselers_glm <- glm(income ~ age + height + children,
+                    data = baselers)
+
+# Look at summary results
+summary(baselers_glm)
+# [...]
+```
+
+```{r, eval = TRUE, echo = FALSE}
+baselers_glm <- glm(income ~ age + height + children,
+                    data = baselers)
+```
+
+
+```{r}
+# Look at all named outputs
+names(baselers_glm)
+
+# Access specific outputs
+baselers_glm$coefficients
+```
+
+
+]
+
+
+---
+
+# Predict new data with predict()
+
+.pull-left4[
+
+All machine learning objects will allow you to <high>predict the criterion of new data</high> using `predict()`.
+
+Compare the predicted values to the true criterion values of `newdata` to see how well your model did.
+<br>
+
+|argument|description|
+|:----|:-----|
+|object| A machine learning / statistical object created from `glm()`, `randomforest()`, ...|
+|newdata|A dataframe of new data|
+
+
+```{r, echo = FALSE}
+zurichers <- tibble(id = c(1, 2, 3, 4, 5),
+                    age = c(65, 75, 35, 54, 65),
+                    children = c(0, 3, 1, 0, 2),
+                    height = c(1.66, 1.96, 1.76, 1.73, 1.59),
+                    income = c(7500, 5400, 8400, 9500, 3700))
+```
+
+
+
+]
+
+.pull-right55[
+
+Predict values from `zurichers` data frame:
+
+```{r, echo = FALSE}
+knitr::kable(zurichers, format = "markdown")
+```
+
+```{r}
+# produce vector of new predictions
+predict(object = baselers_glm,  # ML object
+        newdata = zurichers)    # DF of new data
+```
+
+
+]
+
+---
+
+# Practical
+
+<p>
+  <font size=6>
+    <a href="https://therbootcamp.github.io/BaselRBootcamp_2018July/_sessions/MachineLearning/MachineLearning_practical.html"><b>Link to practical<b></a>
+  </font>
+</p>
+
+

@@ -1,0 +1,492 @@
+---
+title: "Machine Learning"
+author: "Basel R Bootcamp July 2018<br/><a href='https://therbootcamp.github.io'>www.therbootcamp.com</a><br/><a href='https://twitter.com/therbootcamp'>@therbootcamp</a>"
+output:
+  html_document:
+    css: practical.css
+---
+
+```{r setup, echo = FALSE}
+knitr::opts_chunk$set(comment = NA, 
+                      fig.width = 6, 
+                      fig.height = 6,
+                      fig.align = 'center',
+                      echo = TRUE, 
+                      eval = TRUE, 
+                      warning = FALSE)
+
+options(digits = 3)
+```
+
+```{r, echo = FALSE, fig.align = 'center', eval = TRUE, out.width = "70%", fig.cap="Source: Android Authority"}
+knitr::include_graphics("https://cdn57.androidauthority.net/wp-content/uploads/2018/01/machine-learning-algorithms-840x488.jpg")
+```
+
+## {.tabset}
+
+
+### Overview
+
+In this practical you'll practice the basics of machine learning in R
+
+By the end of this practical you will know how to:
+
+1. Fit regression, decision trees, and random forests to training data using the original model packages
+2. Explore each object with generic functions.
+3. Predict outcomes from new data with all models.
+4. Evaluate the model's fitting and prediction performance.
+
+### Packages
+
+|Package| Installation|
+|:------|:------|
+|`tidyverse`|`install.packages("tidyverse")`|
+|`broom`|`install.packages("broom")`|
+|`rpart`|`install.packages("rpart")`|
+|`FFTrees`|`install.packages("FFTrees")`|
+|`partykit`|`install.packages("partykit")`|
+|`party`|`install.packages("party")`|
+|`randomForest`|`install.packages("randomForest")`|
+|`caret`|`install.packages("caret")`|
+
+
+### Datasets
+
+```{r, eval = TRUE, message = FALSE}
+library(tidyverse)
+library(rpart)
+library(FFTrees)
+library(partykit)
+library(party)
+library(randomForest)
+library(rminer)
+library(caret)
+
+
+attrition_train <- read_csv("https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_data/attrition_train.csv")
+attrition_test <- read_csv("https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_data/attrition_test.csv")
+heartdisease_train <- read_csv("https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_data/heartdisease_train.csv")
+heartdisease_test <- read_csv("https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_data/heartdisease_test.csv")
+house_train <- read_csv("https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_data/house_train.csv")
+house_test <- read_csv("https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_data/house_test.csv")
+```
+
+|File | Rows | Columns |
+|:----|:-----|:------|
+|[house_train.csv](https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_data/house_train.csv)| 1000 | 21|
+|[house_test.csv](https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_data/house_test.csv)| 15000 | 21|
+
+### Glossary
+
+| Function| Package | Description |
+|:---|:------|:---------------------------------------------|
+| `summary()`|`base`|    Get summary information from an R object| 
+| `names()`|`base`|    See the named elements of a list| 
+| `LIST$NAME()`|`base`|    Get the named element `NAME` from a list `OBJECT`| 
+| `predict(object, newdata)`|`base`|    Predict the criterion values of `newdata` based on `object`|
+
+
+
+```{r, echo = FALSE, eval = TRUE, include = FALSE}
+library(tidyverse)    # Load tidyverse for dplyr and tidyr
+library(rpart)        # For rpart()
+library(broom)        # For tidy()
+library(caret)        # For resamp 
+library(partykit)     # For nice decision trees
+
+# Step 1: Load Training and Test data ----------------------
+
+house_train <- read_csv("https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_data/house_train.csv")
+
+house_test <- read_csv("https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_data/house_test.csv")
+
+# Step 2: Explore training data -----------------------------
+
+summary(house_train)
+
+# We will do a log-transformation on price
+#  because it is so heavily skewed
+
+# Log-transform price
+house_train <- house_train %>%
+  mutate(price = log(price))
+
+# Log-transform price
+house_test <- house_test %>%
+  mutate(price = log(price))
+```
+
+
+### Examples
+
+```{r, eval = FALSE, echo = TRUE}
+# Machine learning basics ------------------------------------
+
+# Step 0: Load packages-----------
+
+library(tidyverse)    # Load tidyverse for dplyr and tidyr
+library(rpart)        # For rpart()
+library(broom)        # For tidy()
+library(caret)        # For resamp 
+library(partykit)     # For nice decision trees
+
+# Step 1: Load Training and Test data ----------------------
+
+house_train <- read_csv("https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_data/house_train.csv")
+
+house_test <- read_csv("https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_data/house_test.csv")
+
+# Step 2: Explore training data -----------------------------
+
+summary(house_train)
+
+# We will do a log-transformation on price
+#  because it is so heavily skewed
+
+# Log-transform price
+house_train <- house_train %>%
+  mutate(price = log(price))
+
+# Log-transform price
+house_test <- house_test %>%
+  mutate(price = log(price))
+
+# Step 3: Fit models predicting price ------------------
+
+# Regression
+price_lm <- glm(formula = price ~ bedrooms + bathrooms + floors,
+                data = house_train)
+
+# Decision Trees
+price_rpart <- rpart(formula = price ~ bedrooms + bathrooms + floors,
+                     data = house_train)
+
+# Step 4: Explore models -------------------------------
+
+# Regression
+summary(price_lm)
+
+# Decision Trees
+price_rpart
+plot(price_rpart)
+text(price_rpart)
+
+# Nicer version!
+plot(as.party(price_rpart))
+
+
+# Step 5: Assess fitting accuracy ----------------------------
+
+
+# Get fitted values
+lm_fit <- predict(price_lm, 
+                 newdata = house_train)
+
+rpart_fit <- predict(price_rpart, 
+                    newdata = house_train)
+
+# Regression Fitting Accuracy
+postResample(pred = lm_fit, 
+             obs = house_train$price)
+
+# Decision Tree Fitting Accuracy
+postResample(pred = rpart_fit, 
+             obs = house_train$price)
+
+# Step 6: Predict new data -------------------------
+
+lm_pred <- predict(object = price_lm, 
+                   newdata = house_test)
+
+rpart_pred <- predict(object = price_rpart, 
+                      newdata = house_test)
+
+# Step 7: Compare accuracy --------------------------
+
+# Regression Prediction Accuracy
+postResample(pred = lm_pred, 
+             obs = house_test$price)
+
+# Decision Tree Prediction Accuracy
+postResample(pred = rpart_pred, 
+             obs = house_test$price)
+
+
+# Plot results
+
+# Tidy competition results
+competition_results <- tibble(truth = house_test$price,
+                              Regression = lm_pred,
+                              Decision_Trees = rpart_pred) %>%
+                       gather(group, prediction, -truth)
+
+# Plot!
+ggplot(data = competition_results,
+       aes(x = truth, y = prediction, col = group)) +
+  geom_point(alpha = .2) +
+  geom_abline(slope = 1, intercept = 0) +
+  labs(title = "Predicting housing prices",
+       subtitle = "Regression versus decision trees")
+```
+
+# Tasks
+
+## A - Setup
+
+1. Open your `baselrbootcamp` R project. It should already have the folders `1_Data` and `2_Code`. Make sure that the data files listed in the `Datasets` section above are in your `1_Data` folder
+
+```{r}
+# Done!
+```
+
+2. Open a new R script. At the top of the script, using comments, write your name and the date. Save it as a new file called `machinelearning_practical.R` in the `2_Code` folder.  
+
+3. Using `library()` load the set of packages for this practical listed in the packages section above.
+
+```{r, eval = FALSE, echo = TRUE}
+## NAME
+## DATE
+## Wrangling Practical
+
+library(XX)     
+library(XX)
+#...
+```
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE, eval = TRUE}
+library(tidyverse)
+```
+
+4. For this practical, we'll use two datasets related to the prices of houses in King County Washington. There is a  *training* dataset `house_train.csv` and a model *testing* dataset `house_test.csv` data. Using the following template, load the datasets into R as `house_train` and `house_test`:
+
+```{r, echo = TRUE, eval = FALSE, message = FALSE, warning = FALSE}
+house_train <- read_csv(file = "XXX/XXX")
+```
+
+5. Take a look at the first few rows of each dataset by printing them to the console.
+
+## B - Walking through the 7 steps
+
+```{r}
+
+# Step 0: Load packages-----------
+
+library(tidyverse)    # Load tidyverse for dplyr and tidyr
+library(rpart)        # For rpart()
+library(broom)        # For tidy()
+library(caret)        # For resamp 
+library(partykit)     # For nice decision trees
+
+# Step 1: Load Training and Test data ----------------------
+
+house_train <- read_csv("https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_data/house_train.csv")
+
+house_test <- read_csv("https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_data/house_test.csv")
+
+# Step 2: Explore training data -----------------------------
+
+summary(house_train)
+
+# We will do a log-transformation on price
+#  because it is so heavily skewed
+
+# Log-transform price
+house_train <- house_train %>%
+  mutate(price = log(price))
+
+# Log-transform price
+house_test <- house_test %>%
+  mutate(price = log(price))
+
+# Step 3: Fit models predicting price ------------------
+
+# Regression
+price_lm <- glm(formula = price ~ bedrooms + bathrooms + floors,
+                data = house_train)
+
+# Decision Trees
+price_rpart <- rpart(formula = price ~ bedrooms + bathrooms + floors,
+                     data = house_train)
+
+# Step 4: Explore models -------------------------------
+
+# Regression
+summary(price_lm)
+
+# Decision Trees
+price_rpart
+plot(price_rpart)
+text(price_rpart)
+
+# Nicer version!
+plot(as.party(price_rpart))
+
+
+# Step 5: Assess fitting accuracy ----------------------------
+
+
+# Get fitted values
+lm_fit <- predict(price_lm, 
+                 newdata = house_train)
+
+rpart_fit <- predict(price_rpart, 
+                    newdata = house_train)
+
+# Regression Fitting Accuracy
+postResample(pred = lm_fit, 
+             obs = house_train$price)
+
+# Decision Tree Fitting Accuracy
+postResample(pred = rpart_fit, 
+             obs = house_train$price)
+
+# Step 6: Predict new data -------------------------
+
+lm_pred <- predict(object = price_lm, 
+                   newdata = house_test)
+
+rpart_pred <- predict(object = price_rpart, 
+                      newdata = house_test)
+
+# Step 7: Compare accuracy --------------------------
+
+# Regression Prediction Accuracy
+postResample(pred = lm_pred, 
+             obs = house_test$price)
+
+# Decision Tree Prediction Accuracy
+postResample(pred = rpart_pred, 
+             obs = house_test$price)
+
+
+# Plot results
+
+# Tidy competition results
+competition_results <- tibble(truth = house_test$price,
+                              Regression = lm_pred,
+                              Decision_Trees = rpart_pred) %>%
+                       gather(group, prediction, -truth)
+
+# Plot!
+ggplot(data = competition_results,
+       aes(x = truth, y = prediction, col = group)) +
+  geom_point(alpha = .2) +
+  geom_abline(slope = 1, intercept = 0) +
+  labs(title = "Predicting housing prices",
+       subtitle = "Regression versus decision trees")
+```
+
+
+1. Run Steps 0 through 4 in the Examples section above. Run each line of code individually and explore each object you create. Try to understand each of the steps! If you have trouble, ask for help!
+
+2. Which of the three features (bedrooms, bathrooms, floors) do the regression and decision tree models use? Do they treat the features equally?
+
+3. Run step 5. Look at the results. Which model has the best fitting performance?
+
+4. Run Steps 6-7. Look at the results. Which model has the best prediction performance? How does each model's prediction performance compare to its fitting performance?
+
+## D - Include random forests
+
+1. Random forests are much more complex than regression and decision trees. Try including Random forests in your analyses as a new competitor. You can use the `randomForest()` function from the `randomForest` package to fit your model!
+
+```{r, eval = TRUE}
+# Just add the following:
+
+# Regression
+price_rf <- randomForest(formula = price ~ bedrooms + bathrooms + floors,
+                         data = house_train)
+
+
+# Get fitted values
+rf_fit <- predict(price_rf, 
+                 newdata = house_train)
+
+
+# prediction acuracy
+postResample(pred = rf_fit, 
+             obs = house_train$price)
+
+# Get fitted values
+rf_pred <- predict(price_rf, 
+                 newdata = house_test)
+
+
+# prediction acuracy
+postResample(pred = rf_pred, 
+             obs = house_test$price)
+```
+
+2. How does the *fitting* performance of random forests compare to the other algorithms in training?
+
+```{r}
+# rf is better!
+```
+
+3. How does the *prediction* performance of random forests compare to the other algorithms in testing?
+
+```{r}
+# rf is better!
+```
+
+## E - Include more features
+
+Until now, you've only been predicting price based on 3 features (bedrooms, bathrooms, and floors). Of course, you have access to lots more data to predict housing prices! Now it's time to try using more data to predict price.
+
+1. Look closely again at the columns in the `house_train` data. There are two features in the data that you definitely *don't* want to include in your models. Which two are they?
+
+2. Remove those two features from your training data using the following template:
+
+```{r, eval = FALSE}
+# Remove two features (columns) from house_train
+house_train <- house_train %>%
+  select(-XX, -XX)
+```
+
+
+```{r}
+# Remove two features (columns) from house_train
+house_train <- house_train %>%
+  select(-id, -date)
+```
+
+3. Re-run your models, but now predict price based on *all* of the features. To do this, use the formula short hand `formula = price ~ .`.
+
+```{r}
+# Regression example
+price_lm <- glm(formula = price ~.,
+                data = house_train)
+
+# Same with other models...
+```
+
+4. How does the overall fitting and prediction performance of the models compare to when you only used three features? Did each model improve?
+
+```{r}
+# Yes each model improves!!
+```
+
+## F - Predict the year a house was built
+
+```{r}
+# On your own!
+```
+
+
+So far, we have predicted house prices based on many features. Now, see how well you can predict the *year* a house was built (`yr_built`) based on the following four features: bedrooms, bathrooms, condition, sqft_living.
+
+1. Go through Steps 0 through 4 using regression `glm()` and decision trees `rpart()` to build models predicting the year a house was built `yr_built` based on `bedrooms`, `bathrooms`, `condition`, `sqft_living`.
+
+2. Based on your model exploration (Step 4), which of the four features seem to be the most important in predicting the year a house was built?
+
+3. Complete Steps 5 through 7.
+
+4. Which of your three models is the best at predicting the year a house was built?
+
+# Additional reading
+
+- For more details check out `caret`'s vignette using `vignette("caret")`.
+
+- Also check out [Applied Predictive Modeling](https://www.amazon.com/dp/B005Z29QT4/ref=cm_sw_su_dp) Kuhn & Johnson.
+
+
+

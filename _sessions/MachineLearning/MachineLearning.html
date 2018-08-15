@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Machine Learning</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Geneva R Bootcamp  www.therbootcamp.com" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="baselrbootcamp.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Machine Learning
+### Geneva R Bootcamp <br/><a href='https://therbootcamp.github.io'>www.therbootcamp.com</a><br/>
+### November 2018
+
+---
+
+
+layout: true
+
+&lt;div class="my-footer"&gt;&lt;span&gt;
+&lt;a href="https://therbootcamp.github.io/"&gt;&lt;font color="#7E7E7E"&gt;Geneva, November 2018&lt;/font&gt;&lt;/a&gt;
+&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;
+&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;
+&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;
+&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;
+&lt;a href="https://therbootcamp.github.io/"&gt;&lt;font color="#7E7E7E"&gt;www.therbootcamp.com&lt;/font&gt;&lt;/a&gt;
+&lt;/span&gt;&lt;/div&gt; 
+
+
+
+
+
+
+
+---
+  
+
+
+
+
+
+
+# What is machine learning?
+
+.pull-left55[
+
+### Algorithms autonomously learning from data.
+
+Given data, an algorithm tunes its &lt;high&gt;parameters&lt;/high&gt; to match the data, understand how it works, and make predictions for what will occur in the future.
+&lt;br&gt;&lt;br&gt;
+&lt;p align="center"&gt;
+  &lt;img src="https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/mldiagram_A.png"&gt;
+&lt;/p&gt;
+]
+
+.pull-right4[
+
+&lt;p align="center"&gt;
+  &lt;img src="https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/machinelearningcartoon.png"&gt;
+&lt;/p&gt;
+
+]
+
+---
+
+# Everyone uses machine learning
+
+.pull-left4[
+
+&gt; ### "Machine learning drives our algorithms for demand forecasting, product search ranking, product and deals recommendations, merchandising placements, fraud detection, translations, and much more."
+&gt; ### Jeff Bezos, founder of Amazon
+
+]
+
+
+.pull-right55[
+
+&lt;p align="center"&gt;
+  &lt;img src="https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/mlexamples.png"&gt;
+&lt;/p&gt;
+
+]
+
+
+---
+
+# What is the basic machine learning process?
+
+&lt;p align="center"&gt;
+  &lt;img src="https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/MLdiagram.png"&gt;
+&lt;/p&gt;
+
+
+---
+
+.pull-left45[
+
+# What is a model?
+
+A model is a &lt;high&gt;formal&lt;/high&gt; (mathematical) procedure describing the relationships between variables.
+
+Most data have one main &lt;high&gt;criterion&lt;/high&gt; or variable of interest, and several &lt;high&gt;features&lt;/high&gt;.
+
+&lt;br&gt;
+
+  .pull-left7[
+  
+  | id|sex | age|fam_history |smoking | disease|
+  |--:|:---|---:|:-----------|:-------|-------:|
+  |  1|m   |  45|No          |FALSE   |       0|
+  |  2|m   |  43|Yes         |FALSE   |       1|
+  |  3|f   |  40|Yes         |FALSE   |       1|
+  |  4|m   |  51|Yes         |FALSE   |       1|
+  |  5|m   |  44|No          |TRUE    |       0|
+  ]
+
+]
+
+
+.pull-right5[
+&lt;br&gt;&lt;br&gt;
+### Decision Tree
+
+&lt;p align="center"&gt;
+  &lt;img src="https://github.com/therbootcamp/therbootcamp.github.io/blob/master/_sessions/_image/decision_tree_example.png?raw=true" height="280px"&gt;
+&lt;/p&gt;
+
+### Weighted Additive (Regression)
+
+`$$\large{Risk = age \times 0.01 + smoking \times 0.20 + fam\_history \times 0.20}$$`
+
+]
+
+
+---
+
+.pull-left45[
+
+# What is model training?
+
+Model &lt;high&gt;training&lt;/high&gt; (aka, fitting) is the process of matching a model's &lt;high&gt;parameters&lt;/high&gt; to a specific dataset.
+
+Q: What are the parameters in the two models on the right?
+
+&lt;br&gt;
+
+  .pull-left7[
+  
+  | id|sex | age|fam_history |smoking | disease|
+  |--:|:---|---:|:-----------|:-------|-------:|
+  |  1|m   |  45|No          |FALSE   |       0|
+  |  2|m   |  43|Yes         |FALSE   |       1|
+  |  3|f   |  40|Yes         |FALSE   |       1|
+  |  4|m   |  51|Yes         |FALSE   |       1|
+  |  5|m   |  44|No          |TRUE    |       0|
+  ]
+
+]
+
+.pull-right5[
+&lt;br&gt;&lt;br&gt;
+### Decision Tree
+
+&lt;p align="center"&gt;
+  &lt;img src="https://github.com/therbootcamp/therbootcamp.github.io/blob/master/_sessions/_image/decision_tree_example.png?raw=true" height="280px"&gt;
+&lt;/p&gt;
+
+### Weighted Additive (Regression)
+
+`$$\large{Risk = age \times 0.01 + smoking \times 0.20 + fam\_history \times 0.20}$$`
+
+]
+
+
+
+---
+
+
+
+
+
+# Fit your own linear model!
+
+&lt;br&gt;
+&lt;img src="MachineLearning_files/figure-html/unnamed-chunk-6-1.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Fit your own linear model!
+&lt;br&gt;
+&lt;img src="MachineLearning_files/figure-html/unnamed-chunk-7-1.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Fit your own linear model!
+&lt;br&gt;
+&lt;img src="MachineLearning_files/figure-html/unnamed-chunk-8-1.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Why do we separate training from prediction?
+
+.pull-left35[
+&lt;br&gt;
+Just because a model can &lt;high&gt;fit past data well&lt;/high&gt;, does *not* necessarily mean that it will &lt;high&gt;predict new data well&lt;/high&gt;.
+
+Anyone can come up with a model of past data (e.g.; stock performance, lottery winnings). 
+
+&lt;high&gt;Predicting what you can't see in the future is much more difficult.&lt;/high&gt;
+
+]
+ 
+.pull-right6[
+
+&lt;p align="center"&gt;
+  &lt;img src="https://raw.githubusercontent.com/therbootcamp/Erfurt_2018June/master/_sessions/_image/prediction_collage.png"&gt;
+&lt;/p&gt;
+
+
+]
+
+---
+&lt;br&gt;&lt;br&gt;
+&lt;font size = 6&gt;"Can you come up with a model that will perfectly match past data but is worthless in predicting future data?"&lt;/font&gt;&lt;br&gt;&lt;br&gt;
+
+
+.pull-left45[
+
+&lt;br&gt;
+&lt;font size=5&gt;&lt;hfont&gt;Past &lt;high&gt;Training&lt;/high&gt; Data&lt;/hfont&gt;&lt;/font&gt;
+
+&lt;br&gt;
+
+
+| id|sex | age|fam_history |smoking | disease|
+|--:|:---|---:|:-----------|:-------|-------:|
+|  1|m   |  45|No          |FALSE   |       0|
+|  2|m   |  43|Yes         |FALSE   |       1|
+|  3|f   |  40|Yes         |FALSE   |       1|
+|  4|m   |  51|Yes         |FALSE   |       1|
+|  5|m   |  44|No          |TRUE    |       0|
+
+]
+
+
+.pull-right45[
+
+&lt;br&gt;
+&lt;font size=5&gt;&lt;hfont&gt;Future &lt;high&gt; Test&lt;/high&gt; Data&lt;/hfont&gt;&lt;/font&gt;
+
+&lt;br&gt;
+
+
+| id|sex | age|fam_history |smoking |disease |
+|--:|:---|---:|:-----------|:-------|:-------|
+| 91|m   |  51|Yes         |TRUE    |?       |
+| 92|f   |  47|No          |TRUE    |?       |
+| 93|m   |  39|No          |TRUE    |?       |
+| 94|f   |  51|Yes         |TRUE    |?       |
+| 95|f   |  50|Yes         |FALSE   |?       |
+
+]
+
+
+
+---
+
+# Two types of prediction tasks
+
+.pull-left45[
+
+&lt;p align="center"&gt;
+  &lt;img src="https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/classification_task.png" height="450px"&gt;
+&lt;/p&gt;
+
+]
+
+
+.pull-right45[
+
+&lt;p align="center"&gt;
+  &lt;img src="https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/regression_task.png" height="450px"&gt;
+&lt;/p&gt;
+
+]
+
+
+---
+
+# What machine learning algorithms are there?
+
+.pull-left55[
+
+There are thousands of machine learning algorithms from many different fields.
+
+[Wikipedia](https://en.wikipedia.org/wiki/Category:Machine_learning) lists 57 categories of machine learning algorithms:
+
+&lt;br&gt;
+&lt;p align="center"&gt;
+  &lt;img src="https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/wikipediaml.png" height="250px"&gt;
+&lt;/p&gt;
+
+
+]
+
+.pull-right4[
+
+
+### Algorithims we focus on
+&lt;br&gt;
+We will focus on 3 algorithms that apply to most ML tasks:
+
+  .pull-left6[
+  | Algorithm | Complexity|
+  |:--------------------------------------|:-------------------|
+  |     [Decision Trees](https://en.wikipedia.org/wiki/Decision_tree) | Low |
+  |     [Regression](https://en.wikipedia.org/wiki/Regression_analysis) | Low / Medium | 
+  |     [Random Forests](https://en.wikipedia.org/wiki/Random_forest) | High |
+  ]
+]
+
+---
+
+# How do you fit and evaluate ML models in R?
+
+.pull-left45[
+
+&lt;high&gt;ML models work the same way you fit standard statistical models.&lt;/high&gt; Install the package, load, and find the main fitting functions.
+
+
+```r
+# Install the glmnet package
+install.packages("glmnet")
+
+# Load glmnet
+library(glmnet)
+
+# Look at help menu
+?glmnet
+```
+
+Note: Some functions will use the standard `FUN(formula, data)` arguments, but others (like `glmnet()`) require other arguments, like `x, y` (numeric matrices).
+
+]
+
+.pull-right5[
+
+&lt;p align="center"&gt;
+  &lt;img src="https://raw.githubusercontent.com/therbootcamp/Erfurt_2018June/master/_sessions/_image/glmnet_help.jpg" height="400px"&gt;
+&lt;/p&gt;
+
+]
+
+---
+
+# Regression
+
+.pull-left45[
+
+In regression, the criterion is modeled as the &lt;high&gt;sum of predictors times weights `\(\beta_{1}\)`, `\(\beta_{2}\)`&lt;/high&gt;.
+
+&lt;u&gt;Loan example&lt;/u&gt;&lt;br&gt;
+For instance, one could model the risk of defaulting on a loan as:
+
+`$$Risk = Age \times \beta_{age} + Income \times \beta_{income} + ...$$`
+
+Training a model means finding values of `\(\beta_{Age}\)` and `\(\beta_{Income}\)` that 'best' match the training data.
+
+&lt;p align="center"&gt;
+  &lt;img src="https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/regression.png" height="180px"&gt;
+&lt;/p&gt;
+
+]
+
+.pull-right5[
+
+### Regression with glm()
+
+The `glm()` function in the base stats package performs standard regression
+
+
+```r
+# Standard linear regression
+glm_mod &lt;- glm(formula = happiness ~ .,
+               data = baselers)
+
+# Logisitic regression with family = 'binomial'
+glm_mod &lt;- glm(formula = sex ~ .,
+               data = baselers.
+               family = "binomial")
+```
+
+
+
+]
+
+---
+
+# Decision Trees
+
+.pull-left45[
+
+In decision trees, the criterion is modeled as a &lt;high&gt;sequence of logical YES or NO questions&lt;/high&gt;.
+&lt;br&gt;&lt;br&gt;
+
+&lt;u&gt;Loan example&lt;/u&gt;&lt;br&gt;
+&lt;p align="center"&gt;
+  &lt;img src="https://raw.githubusercontent.com/therbootcamp/therbootcamp.github.io/master/_sessions/_image/defaulttree.png" height="250px"&gt;
+&lt;/p&gt;
+
+
+]
+
+.pull-right5[
+
+### Decision trees with rpart
+
+This codes runs decision trees with functions from the `rpart`-package.
+
+
+```r
+install.packages("rpart")
+library(rpart)
+
+# Train rpart model
+loan_rpart_mod &lt;- rpart(formula, data,
+                        method = "class",
+                        rpart.control)
+```
+
+]
+
+---
+
+# Random Forest
+
+.pull-left45[
+
+In [Random Forest](https://en.wikipedia.org/wiki/Random_forest), the criterion is models as the &lt;high&gt;aggregate prediction of a large number of decision trees&lt;/high&gt; each based on different features.
+&lt;br&gt;
+
+&lt;u&gt;Loan example&lt;/u&gt;&lt;br&gt;
+&lt;p align="center"&gt;
+  &lt;img src="https://raw.githubusercontent.com/therbootcamp/Erfurt_2018June/master/_sessions/_image/randomforest_diagram.png" height="285px"&gt;&lt;br&gt;
+  &lt;a href="https://medium.com/@williamkoehrsen"&gt;Source&lt;/a&gt;
+&lt;/p&gt;
+
+]
+
+.pull-right5[
+
+### Random Forests with `randomforest`
+
+
+```r
+install.packages("randomForest")
+library(randomForest)
+
+# Create a randomForest model
+randomForest(formula = y ~.,    # Formula 
+             data = data_train, # Training data
+             ntree, mtry)  # Tuning parameters
+```
+
+&lt;br&gt;
+Tuning parameters
+
+|Parameter | Description|
+|:-------|:-------|
+|`ntree`|Number of trees in forest|
+|`mtry`|Number of variables randomly selected at splits|
+
+]
+
+
+---
+.pull-left35[
+
+# Exploring ML objects
+
+Just like objects from statistical functions, objects from machine learning functions are &lt;high&gt;lists&lt;/high&gt; that you can explore using &lt;high&gt;generic functions&lt;/high&gt;:
+
+
+|Function|Description
+|:------|:----|
+|`summary()`| Overview of the most important information|
+|`names()`|See all named elements you can access with $|
+|`plot()`|Visualise the object (sometimes)|
+|`predict()`|Predict new data based on the ML model|
+
+]
+
+.pull-right6[
+
+
+
+```r
+# Create a regression object
+baselers_glm &lt;- glm(income ~ age + height + children,
+                    data = baselers)
+
+# Look at summary results
+summary(baselers_glm)
+# [...]
+```
+
+
+
+
+
+```r
+# Look at all named outputs
+names(baselers_glm)
+```
+
+```
+##  [1] "coefficients"      "residuals"         "fitted.values"     "effects"           "R"                
+##  [6] "rank"              "qr"                "family"            "linear.predictors" "deviance"         
+## [11] "aic"               "null.deviance"     "iter"              "weights"           "prior.weights"    
+## [16] "df.residual"       "df.null"           "y"                 "converged"         "boundary"         
+## [21] "model"             "na.action"         "call"              "formula"           "terms"            
+## [26] "data"              "offset"            "control"           "method"            "contrasts"        
+## [31] "xlevels"
+```
+
+```r
+# Access specific outputs
+baselers_glm$coefficients
+```
+
+```
+## (Intercept)         age      height    children 
+##     574.740     149.302       1.720       7.727
+```
+
+
+]
+
+
+---
+
+# Predict new data with predict()
+
+.pull-left4[
+
+All machine learning objects will allow you to &lt;high&gt;predict the criterion of new data&lt;/high&gt; using `predict()`.
+
+Compare the predicted values to the true criterion values of `newdata` to see how well your model did.
+&lt;br&gt;
+
+|argument|description|
+|:----|:-----|
+|object| A machine learning / statistical object created from `glm()`, `randomforest()`, ...|
+|newdata|A dataframe of new data|
+
+
+
+
+
+
+]
+
+.pull-right55[
+
+Predict values from `zurichers` data frame:
+
+
+| id| age| children| height| income|
+|--:|---:|--------:|------:|------:|
+|  1|  65|        0|   1.66|   7500|
+|  2|  75|        3|   1.96|   5400|
+|  3|  35|        1|   1.76|   8400|
+|  4|  54|        0|   1.73|   9500|
+|  5|  65|        2|   1.59|   3700|
+
+
+```r
+# produce vector of new predictions
+predict(object = baselers_glm,  # ML object
+        newdata = zurichers)    # DF of new data
+```
+
+```
+##     1     2     3     4     5 
+## 10282 11799  5811  8640 10298
+```
+
+
+]
+
+---
+
+# Practical
+
+&lt;p&gt;
+  &lt;font size=6&gt;
+    &lt;a href="https://therbootcamp.github.io/BaselRBootcamp_2018July/_sessions/MachineLearning/MachineLearning_practical.html"&gt;&lt;b&gt;Link to practical&lt;b&gt;&lt;/a&gt;
+  &lt;/font&gt;
+&lt;/p&gt;
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script>
+(function() {
+  var i, text, code, codes = document.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+})();
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
